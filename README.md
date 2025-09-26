@@ -34,3 +34,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Clerk configuration
+
+This project uses Clerk for authentication. To make Clerk work locally and in environments like Vercel, set the following environment variables in a `.env.local` file at the project root (some are client-side/public):
+
+```
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+# Example (you'll get these from your Clerk dashboard):
+# NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_...
+# CLERK_SECRET_KEY=sk_live_...
+```
+
+See the Clerk docs for how to obtain your Publishable and Secret keys: https://clerk.com/docs
