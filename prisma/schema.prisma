@@ -17,5 +17,23 @@ datasource db {
 
 model User {
   id    String @id @default(uuid())
-  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Here we added the a unique constraint to the clerkId field
+  clerkId String @unique
+  email String @unique   
+  entries JournalEntry[]
 }
+
+model JournalEntry{
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // main date for the journal entry
+  userId String
+  user User @relation(fields: [userId],references: [id])
+
+  context String @db.Text
+  @@index([userId])
+    }
