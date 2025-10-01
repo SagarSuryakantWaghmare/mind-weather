@@ -1,58 +1,42 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../app/generated/prisma"
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
   id        String         @id @default(uuid())
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
-  // Here we added the a unique constraint to the clerkId field
   clerkId   String         @unique
   email     String         @unique
   entries   JournalEntry[]
 }
 
 model JournalEntry {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // main date for the journal entry
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
-  context  String    @db.Text
-  analysis Analysis?
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    String
+  context   String
+  analysis  Analysis?
+  user      User      @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
 
 model Analysis {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  entryId String
-  entry   JournalEntry @relation(fields: [entryId], references: [id])
-
-  mood     String
-  summary  String  @db.Text
-  color    String
-  negative Boolean
-
-  @@unique([entryId])
+  id        String       @id @default(uuid())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  entryId   String       @unique
+  mood      String
+  summary   String
+  color     String
+  negative  Boolean
+  entry     JournalEntry @relation(fields: [entryId], references: [id])
 }
-

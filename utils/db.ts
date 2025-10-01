@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../app/generated/prisma";
 
 
 // This 'as unknown as' just a typescript that we can convert if it don't known 
