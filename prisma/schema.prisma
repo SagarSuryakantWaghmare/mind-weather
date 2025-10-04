@@ -22,7 +22,7 @@ model JournalEntry {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   userId    String
-  context   String
+  content   String
   analysis  Analysis?
   user      User      @relation(fields: [userId], references: [id])
 
