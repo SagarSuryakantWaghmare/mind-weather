@@ -26,7 +26,7 @@ model JournalEntry {
   analysis  Analysis?
   user      User      @relation(fields: [userId], references: [id])
 
-  @@index([userId])
+  @@unique([userId,id])
 }
 
 model Analysis {
