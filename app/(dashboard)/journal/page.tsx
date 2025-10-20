@@ -1,5 +1,6 @@
 import EntryCard from '@/components/EntryCard';
 import NewEntryCard from '@/components/NewEntryCard';
+import { analyze } from '@/utils/ai';
 import { getUserByClerkId } from '@/utils/auth';
 import { prisma } from '@/utils/db';
 import Link from 'next/link';
@@ -13,9 +14,24 @@ const getEntries = async () => {
         orderBy: {
             createdAt: 'desc'
         }
-    })
+    });
+
+    // Example journal entry for analysis
+    const exampleEntry = `
+        Today was a really great day. I went to the park and enjoyed the sunshine. I felt so happy and relaxed being outdoors.
+        I also met my best friend Shraddha after a long time. We had ice cream and talked for hours.
+    `;
+
+    try {
+        const analysis = await analyze(exampleEntry);
+        console.log('Gemini analysis:', analysis);
+    } catch (err) {
+        console.error('Gemini analysis error:', err);
+    }
+
     return entries;
-}
+};
+
 const JournalPage = async () => {
     const entries = await getEntries();
     return (
@@ -24,12 +40,13 @@ const JournalPage = async () => {
             <div className='grid grid-cols-3 gap-4 p-10 '>
                 <NewEntryCard />
                 {entries.map(entry => (
-                    <Link href={`/journal/${entry.id}`} key={entry.id}  >
+                    <Link href={`/journal/${entry.id}`} key={entry.id}>
                         <EntryCard entry={entry} />
                     </Link>
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};
+
 export default JournalPage;
