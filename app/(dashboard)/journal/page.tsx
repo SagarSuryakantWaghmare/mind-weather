@@ -12,7 +12,7 @@ const getEntries = async () => {
             userId: user.id,
         },
         orderBy: {
-            createdAt: 'desc'
+            createdAt: 'desc',
         }
     });
 
